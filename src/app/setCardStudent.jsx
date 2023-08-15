@@ -2,63 +2,25 @@ import TextField from "./form/textField";
 import React, { useState, useEffect } from "react";
 import { validator } from "./utils/validator";
 import { useHistory } from "react-router-dom";
+import { validatorConfig } from "./utils/validatorConfig";
 
 const SetCardStudent = () => {
+  const dataCardStudent = JSON.parse(localStorage.getItem("cardStudent"));
+  const nameButton = dataCardStudent ? "Обновить данные" : "Создать";
   const [data, setData] = useState(
-    JSON.parse(localStorage.getItem("cardStudent"))
+    dataCardStudent
+      ? JSON.parse(localStorage.getItem("cardStudent"))
+      : { name: "", surname: "", year: "", portfolio: "" }
   );
+
   const [errors, setErrors] = useState({});
   const history = useHistory();
-
-  const currentDate = new Date();
-  const year = currentDate.getFullYear() - 1;
 
   const handleChange = (target) => {
     setData((prevState) => ({
       ...prevState,
       [target.name]: target.value,
     }));
-  };
-
-  const validatorConfig = {
-    name: {
-      isRequired: {
-        message: "Поле 'Имя' обязательно для заполнения",
-      },
-    },
-    surname: {
-      isRequired: {
-        message: "Поле 'Фамилия' обязательно для заполнения",
-      },
-    },
-    year: {
-      isRequired: {
-        message: "Поле 'Год рождения' обязательно для заполнения",
-      },
-      isYear: {
-        message: "Поле 'Год рождения' не корректно",
-      },
-      min: {
-        message: "Поле 'Год рождения' не корректно",
-        value: 4,
-      },
-      max: {
-        message: "Поле 'Год рождения' не корректно",
-        value: 4,
-      },
-      maxYear: {
-        message: "Поле 'Год рождения' не корректно",
-        value: year,
-      },
-    },
-    portfolio: {
-      isRequired: {
-        message: "Поле 'Год рождения' обязательно для заполнения",
-      },
-      isPortfolio: {
-        message: "Поле 'Портфолио' должно быть ссылкой",
-      },
-    },
   };
 
   useEffect(() => {
@@ -114,7 +76,7 @@ const SetCardStudent = () => {
         disabled={!isValid}
         onClick={handleClick}
       >
-        Создать
+        {nameButton}
       </button>
     </div>
   );

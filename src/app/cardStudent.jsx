@@ -1,6 +1,6 @@
 const CardStudent = ({ data }) => {
-  const age = 2022 - data.year;
-  console.log(age);
+  const currentDate = new Date();
+  const age = currentDate.getFullYear() - data.year;
 
   function renderPhrase(number) {
     const titles = ["год", "года", "лет"];
@@ -19,7 +19,7 @@ const CardStudent = ({ data }) => {
   }
 
   return (
-    <div>
+    <div className="m-3">
       <div>
         <span className="fw-bold">Имя: </span>
         <span>{data.name}</span>
